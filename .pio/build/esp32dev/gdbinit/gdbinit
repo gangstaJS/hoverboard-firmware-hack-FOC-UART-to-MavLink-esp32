@@ -1,0 +1,2 @@
+source /Users/oz/src/hoverboard-firmware-hack-FOC-UART-to-MavLink-esp32/.pio/build/esp32dev/gdbinit/symbols
+source /Users/oz/src/hoverboard-firmware-hack-FOC-UART-to-MavLink-esp32/.pio/build/esp32dev/gdbinit/connect

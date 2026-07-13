@@ -1,0 +1,301 @@
+
+Discarded input sections
+
+ .literal       0x00000000       0x10 CMakeFiles/cmTC_09cf5.dir/CMakeCXXCompilerABI.cpp.obj
+ .text          0x00000000       0x5f CMakeFiles/cmTC_09cf5.dir/CMakeCXXCompilerABI.cpp.obj
+ .data          0x00000000        0x0 CMakeFiles/cmTC_09cf5.dir/CMakeCXXCompilerABI.cpp.obj
+ .bss           0x00000000        0x0 CMakeFiles/cmTC_09cf5.dir/CMakeCXXCompilerABI.cpp.obj
+ .rodata        0x00000000       0x66 CMakeFiles/cmTC_09cf5.dir/CMakeCXXCompilerABI.cpp.obj
+ .comment       0x00000000       0x30 CMakeFiles/cmTC_09cf5.dir/CMakeCXXCompilerABI.cpp.obj
+ .xt.lit        0x00000000        0x8 CMakeFiles/cmTC_09cf5.dir/CMakeCXXCompilerABI.cpp.obj
+ .xt.prop       0x00000000       0x60 CMakeFiles/cmTC_09cf5.dir/CMakeCXXCompilerABI.cpp.obj
+
+Memory Configuration
+
+Name             Origin             Length             Attributes
+flash            0x10000000         0x00010000         xr!w
+ram              0x20000000         0x00008000         w!xr
+*default*        0x00000000         0xffffffff
+
+Linker script and memory map
+
+                [!provide]                        PROVIDE (__stack = (ORIGIN (ram) + LENGTH (ram)))
+
+.init
+ *(.text.init.enter)
+ *(.data.init.enter)
+ *(SORT_BY_NAME(.init) SORT_BY_NAME(.init.*))
+
+.text           0x10000000        0x0
+ *(.literal.unlikely .text.unlikely .literal.unlikely.* .text.unlikely.*)
+ *(.literal.startup .text.startup .literal.startup.* .text.startup.*)
+ *(SORT_BY_NAME(.text.sorted.*))
+ *(.literal .text .literal.* .text.* .opd .opd.* .branch_lt .branch_lt.*)
+ *(.gnu.linkonce.t.*)
+ *(.fini .fini.*)
+                0x10000000                        __text_end = .
+                [!provide]                        PROVIDE (__etext = __text_end)
+                [!provide]                        PROVIDE (_etext = __text_end)
+                [!provide]                        PROVIDE (etext = __text_end)
+                0x10000000                        . = ALIGN (0x8)
+                [!provide]                        PROVIDE (__preinit_array_start = .)
+                [!provide]                        PROVIDE (__bothinit_array_start = .)
+ *(.preinit_array)
+                [!provide]                        PROVIDE (__preinit_array_end = .)
+                [!provide]                        PROVIDE (__init_array_start = .)
+ *(SORT_BY_INIT_PRIORITY(.init_array.*) SORT_BY_INIT_PRIORITY(.ctors.*))
+ *(.init_array .ctors)
+                [!provide]                        PROVIDE (__init_array_end = .)
+                [!provide]                        PROVIDE (__bothinit_array_end = .)
+                [!provide]                        PROVIDE (__fini_array_start = .)
+ *(SORT_BY_INIT_PRIORITY(.fini_array.*) SORT_BY_INIT_PRIORITY(.dtors.*))
+ *(.fini_array .dtors)
+ *(.fini_array*)
+                [!provide]                        PROVIDE (__fini_array_end = .)
+
+.rodata         0x10000000        0x0
+ *(.rdata)
+ *(.rodata .rodata.*)
+ *(.gnu.linkonce.r.*)
+ *(.srodata.cst16)
+ *(.srodata.cst8)
+ *(.srodata.cst4)
+ *(.srodata.cst2)
+ *(.srodata .srodata.*)
+                [!provide]                        PROVIDE (_pid_base = ADDR (.rodata))
+
+.data.rel.ro
+ *(.data.rel.ro .data.rel.ro.*)
+
+.plt            0x10000000        0x0
+ *(.rela.iplt)
+ *(.rela.*)
+                [!provide]                        PROVIDE (__plt_start = ADDR (.plt))
+                [!provide]                        PROVIDE (__plt_size = SIZEOF (.plt))
+
+.got
+ *(.got.plt)
+ *(.got)
+
+.toc
+ *(.toc .toc.*)
+ *(.iplt .iplt.*)
+
+.preserve       0x20000000        0x0
+                [!provide]                        PROVIDE (__preserve_start__ = .)
+ *(SORT_BY_NAME(.preserve.*))
+ *(.preserve)
+                [!provide]                        PROVIDE (__preserve_end__ = .)
+
+.data           0x20000000        0x0 load address 0x10000000
+ *(.data .data.*)
+ *(.gnu.linkonce.d.*)
+                0x20000000                        . = ALIGN (0x8)
+                [!provide]                        PROVIDE (__global_pointer$ = (. + 0x800))
+                [!provide]                        PROVIDE (_gp = (. + 0x8000))
+ *(.sdata .sdata.* .sdata2.*)
+ *(.gnu.linkonce.s.*)
+                [!provide]                        PROVIDE (__stack_chk_start = .)
+ *(.stack_chk .stack_chk.*)
+                [!provide]                        PROVIDE (__stack_chk_end = .)
+                0x20000000                        PROVIDE (__data_start = ADDR (.data))
+                0x10000000                        PROVIDE (__data_source = LOADADDR (.data))
+                [!provide]                        PROVIDE (__x86_gdt_ro = DEFINED (__x86_gdt)?((__x86_gdt - __data_start) + __data_source):0x0)
+
+.tdata          0x20000000        0x0 load address 0x10000000
+ *(.tdata .tdata.* .gnu.linkonce.td.*)
+                0x20000000                        PROVIDE (__data_end = .)
+                [!provide]                        PROVIDE (__tdata_end = .)
+                [!provide]                        PROVIDE (__stack_chk_size = (__stack_chk_end - __stack_chk_start))
+                [!provide]                        PROVIDE (__tdata_start = (ADDR (.tdata) - __stack_chk_size))
+                [!provide]                        PROVIDE (__tdata_source = (LOADADDR (.tdata) - __stack_chk_size))
+                0x10000000                        PROVIDE (__tdata_source_end = (LOADADDR (.tdata) + SIZEOF (.tdata)))
+                0x10000000                        PROVIDE (__data_source_end = __tdata_source_end)
+                [!provide]                        PROVIDE (__tdata_size = (SIZEOF (.tdata) + __stack_chk_size))
+                [!provide]                        PROVIDE (__edata = __data_end)
+                [!provide]                        PROVIDE (_edata = __data_end)
+                [!provide]                        PROVIDE (edata = __data_end)
+                0x00000000                        PROVIDE (__data_size = (__data_end - __data_start))
+                0x00000000                        PROVIDE (__data_source_size = (__data_source_end - __data_source))
+
+.tbss           0x20000000        0x0
+ *(.tbss .tbss.* .gnu.linkonce.tb.*)
+ *(.tcommon)
+                [!provide]                        PROVIDE (__tls_end = .)
+                [!provide]                        PROVIDE (__tbss_end = .)
+                [!provide]                        PROVIDE (__tls_first = SIZEOF (.tdata)?ADDR (.tdata):ADDR (.tbss))
+                [!provide]                        PROVIDE (__tls_base = (__tls_first - __stack_chk_size))
+                [!provide]                        PROVIDE (__bss_start = ADDR (.tbss))
+                [!provide]                        PROVIDE (__tbss_start = ADDR (.tbss))
+                [!provide]                        PROVIDE (__tbss_offset = (ADDR (.tbss) - __tls_first))
+                [!provide]                        PROVIDE (__tbss_size = SIZEOF (.tbss))
+                0x00000001                        PROVIDE (__tls_align = MAX (ALIGNOF (.tdata), ALIGNOF (.tbss)))
+                [!provide]                        PROVIDE (__tls_size = (__tls_tail_extra_size?(ALIGN (__tls_end, __tls_align) + __tls_tail_extra_size):__tls_end - __tls_base))
+                [!provide]                        PROVIDE (__tls_size_align = (((__tls_size + __tls_align) - 0x1) & ~ ((__tls_align - 0x1))))
+                [!provide]                        PROVIDE (__arm32_tls_tcb_offset = MAX (0x8, __tls_align))
+                [!provide]                        PROVIDE (__arm64_tls_tcb_offset = MAX (0x10, __tls_align))
+                [!provide]                        PROVIDE (__or1k_tls_tcb_offset = MAX (0x10, __tls_align))
+                [!provide]                        PROVIDE (__sh32_tls_tcb_offset = MAX (0x8, __tls_align))
+                [!provide]                        PROVIDE (__x86_tls_tcb = ALIGN (__tls_end, __tls_align))
+                [!provide]                        PROVIDE (__x86_tls_tcb_offset = (__x86_tls_tcb - __tls_base))
+
+.tbss_space     0x20000000        0x0
+                0x20000000                        . = ADDR (.tbss)
+                0x20000000                        . = (. + SIZEOF (.tbss))
+
+.bss            0x20000000        0x0
+                0x20000000                        . = ALIGN (__tls_align)
+                [!provide]                        PROVIDE (__tls_tail_extra_start = .)
+ *(.tls_tail_extra .tls_tail_extra.*)
+                [!provide]                        PROVIDE (__tls_tail_extra_end = .)
+                [!provide]                        PROVIDE (__non_tls_bss_start = .)
+ *(.sbss*)
+ *(.gnu.linkonce.sb.*)
+ *(.bss .bss.*)
+ *(.gnu.linkonce.b.*)
+ *(COMMON)
+                0x20000000                        . = ALIGN (0x8)
+                0x20000000                        __bss_end = .
+                [!provide]                        PROVIDE (__tls_tail_extra_size = (__tls_tail_extra_end - __tls_tail_extra_start))
+                [!provide]                        PROVIDE (__end = __bss_end)
+                0x20000000                        _end = __bss_end
+                [!provide]                        PROVIDE (end = __bss_end)
+                [!provide]                        PROVIDE (__bss_size = (__bss_end - __bss_start))
+                [!provide]                        PROVIDE (__heap_start = __end)
+                [!provide]                        PROVIDE (__heap_end = (__stack - DEFINED (__stack_size)?__stack_size:0x1000))
+                [!provide]                        PROVIDE (__heap_size = (__heap_end - __heap_start))
+
+.heap           0x20000000        0x0
+                0x20000000                        . = (. + DEFINED (__heap_size_min)?__heap_size_min:0x0)
+
+.stack          0x20000000     0x1000
+                0x20001000                        . = (. + DEFINED (__stack_size)?__stack_size:0x1000)
+ *fill*         0x20000000     0x1000 
+
+/DISCARD/
+ *(.note .note.*)
+ *(.eh_frame .eh_frame.*)
+ *(.ARM.extab* .gnu.linkonce.armextab.*)
+ *(.ARM.exidx*)
+
+.stab
+ *(.stab)
+
+.stabstr
+ *(.stabstr)
+
+.stab.excl
+ *(.stab.excl)
+
+.stab.exclstr
+ *(.stab.exclstr)
+
+.stab.index
+ *(.stab.index)
+
+.stab.indexstr
+ *(.stab.indexstr)
+
+.comment
+ *(.comment)
+
+.xtensa.info    0x00000000       0x38
+ .xtensa.info   0x00000000       0x38 CMakeFiles/cmTC_09cf5.dir/CMakeCXXCompilerABI.cpp.obj
+
+.gnu.build.attributes
+ *(.gnu.build.attributes .gnu.build.attributes.*)
+
+.debug
+ *(.debug)
+
+.line
+ *(.line)
+
+.debug_srcinfo
+ *(.debug_srcinfo)
+
+.debug_sfnames
+ *(.debug_sfnames)
+
+.debug_aranges
+ *(.debug_aranges)
+
+.debug_pubnames
+ *(.debug_pubnames)
+
+.debug_info
+ *(.debug_info .gnu.linkonce.wi.*)
+
+.debug_abbrev
+ *(.debug_abbrev)
+
+.debug_line
+ *(.debug_line .debug_line.* .debug_line_end)
+
+.debug_frame
+ *(.debug_frame)
+
+.debug_str
+ *(.debug_str)
+
+.debug_loc
+ *(.debug_loc)
+
+.debug_macinfo
+ *(.debug_macinfo)
+
+.debug_weaknames
+ *(.debug_weaknames)
+
+.debug_funcnames
+ *(.debug_funcnames)
+
+.debug_typenames
+ *(.debug_typenames)
+
+.debug_varnames
+ *(.debug_varnames)
+
+.debug_pubtypes
+ *(.debug_pubtypes)
+
+.debug_ranges
+ *(.debug_ranges)
+
+.debug_addr
+ *(.debug_addr)
+
+.debug_line_str
+ *(.debug_line_str)
+
+.debug_loclists
+ *(.debug_loclists)
+
+.debug_macro
+ *(.debug_macro)
+
+.debug_names
+ *(.debug_names)
+
+.debug_rnglists
+ *(.debug_rnglists)
+
+.debug_str_offsets
+ *(.debug_str_offsets)
+
+.debug_sup
+ *(.debug_sup)
+
+.gnu.attributes
+ *(.gnu.attributes)
+                0x00000001                        ASSERT ((__data_size == __data_source_size), ERROR: .data/.tdata flash size does not match RAM size)
+LOAD CMakeFiles/cmTC_09cf5.dir/CMakeCXXCompilerABI.cpp.obj
+LOAD /Users/oz/.platformio/packages/toolchain-xtensa-esp-elf/bin/../xtensa-esp-elf/../picolibc/xtensa-esp-elf/lib/esp32/no-rtti/libstdc++.a
+LOAD /Users/oz/.platformio/packages/toolchain-xtensa-esp-elf/bin/../xtensa-esp-elf/../picolibc/xtensa-esp-elf/lib/esp32/no-rtti/libm.a
+LOAD /Users/oz/.platformio/packages/toolchain-xtensa-esp-elf/bin/../xtensa-esp-elf/../picolibc/lib/gcc/xtensa-esp-elf/14.2.0/esp32/no-rtti/libgcc.a
+START GROUP
+LOAD /Users/oz/.platformio/packages/toolchain-xtensa-esp-elf/bin/../xtensa-esp-elf/../picolibc/lib/gcc/xtensa-esp-elf/14.2.0/esp32/no-rtti/libgcc.a
+LOAD /Users/oz/.platformio/packages/toolchain-xtensa-esp-elf/bin/../xtensa-esp-elf/../picolibc/xtensa-esp-elf/lib/esp32/no-rtti/libc.a
+END GROUP
+LOAD /Users/oz/.platformio/packages/toolchain-xtensa-esp-elf/bin/../xtensa-esp-elf/../picolibc/lib/gcc/xtensa-esp-elf/14.2.0/esp32/no-rtti/libgcc.a
+OUTPUT(cmTC_09cf5 elf32-xtensa-le)
