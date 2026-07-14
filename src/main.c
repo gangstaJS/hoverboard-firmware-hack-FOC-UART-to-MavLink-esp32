@@ -92,7 +92,7 @@ static void mavlink_uart_init(void)
 }
 
 // ########################## MAVLINK STREAM REQUEST ##########################
-static uint8_t s_fc_sysid  = 1; // updated from first FC heartbeat
+static uint8_t s_fc_sysid = 1;  // updated from first FC heartbeat
 static uint8_t s_fc_compid = 1; // updated from first FC heartbeat
 
 static void mavlink_send_heartbeat(void)
@@ -103,7 +103,7 @@ static void mavlink_send_heartbeat(void)
     // ArduPilot only honors REQUEST_DATA_STREAM and PARAM_REQUEST_READ from
     // a sysid it considers an active GCS. Sending a heartbeat registers us.
     mavlink_msg_heartbeat_pack(
-        255, 190,               // our sysid/compid (GCS)
+        255, 190, // our sysid/compid (GCS)
         &msg,
         MAV_TYPE_GCS,
         MAV_AUTOPILOT_INVALID,
@@ -125,8 +125,8 @@ static void mavlink_reset_streams(void)
         255, 190, &msg,
         s_fc_sysid, s_fc_compid,
         MAV_DATA_STREAM_ALL,
-        0,   // 0 Hz = stop
-        0);  // stop
+        0,  // 0 Hz = stop
+        0); // stop
 
     int len = mavlink_msg_to_send_buffer(buf, &msg);
     uart_write_bytes(MAV_UART, (const char *)buf, len);
@@ -238,8 +238,6 @@ static void mavlink_task(void)
             continue;
         }
 
-        //printf("msgid=%u\n", msg.msgid);
-
         switch (msg.msgid)
         {
         case MAVLINK_MSG_ID_SERVO_OUTPUT_RAW:
@@ -260,7 +258,8 @@ static void mavlink_task(void)
             static uint32_t s_rate_count = 0;
             static uint32_t s_rate_window_ms = 0;
             s_rate_count++;
-            if (s_rate_window_ms == 0) s_rate_window_ms = now_ms;
+            if (s_rate_window_ms == 0)
+                s_rate_window_ms = now_ms;
             uint32_t elapsed = now_ms - s_rate_window_ms;
             if (elapsed >= 1000)
             {
@@ -270,7 +269,7 @@ static void mavlink_task(void)
             }
 
             // ESP_LOGI(TAG, "servo7=%u servo8=%u -> throttle=%d steering=%d",
-                    // servo.servo7_raw, servo.servo8_raw, s_throttle, s_steering);
+            // servo.servo7_raw, servo.servo8_raw, s_throttle, s_steering);
 
             break;
         }
@@ -280,7 +279,7 @@ static void mavlink_task(void)
             // Capture FC sysid/compid the first time we see a non-GCS heartbeat
             if (msg.sysid != 255 && s_fc_sysid == 1 && msg.sysid != 1)
             {
-                s_fc_sysid  = msg.sysid;
+                s_fc_sysid = msg.sysid;
                 s_fc_compid = msg.compid;
                 ESP_LOGI(TAG, "FC identified: sysid=%u compid=%u", s_fc_sysid, s_fc_compid);
             }
@@ -299,20 +298,19 @@ static void mavlink_task(void)
         {
             mavlink_param_value_t pv;
             mavlink_msg_param_value_decode(&msg, &pv);
-    // Log any SR4_ parameter so we can see the actual FC values
+            // Log any SR4_ parameter so we can see the actual FC values
             if (strncmp(pv.param_id, "SR4_", 4) == 0)
                 ESP_LOGI(TAG, "PARAM_VALUE %.*s = %.0f", 16, pv.param_id, pv.param_value);
             break;
         }
 
-        // case MAVLINK_MSG_ID_HEARTBEAT:
-        // {
-        //     mavlink_heartbeat_t hb;
-        //     mavlink_msg_heartbeat_decode(&msg, &hb);
-        //     ESP_LOGI(TAG, "Heartbeat autopilot=%u type=%u", hb.autopilot, hb.type);
-        //     break;
-        // }
-
+            // case MAVLINK_MSG_ID_HEARTBEAT:
+            // {
+            //     mavlink_heartbeat_t hb;
+            //     mavlink_msg_heartbeat_decode(&msg, &hb);
+            //     ESP_LOGI(TAG, "Heartbeat autopilot=%u type=%u", hb.autopilot, hb.type);
+            //     break;
+            // }
         }
     }
 
@@ -365,7 +363,7 @@ void app_main(void)
     mavlink_request_servo_output();
     uint32_t iTimeRequest = millis() + 5000;
     uint32_t iTimeHeartbeat = millis() + 1000; // send heartbeat every 1 s
-    uint32_t iTimeCheck   = millis() + 2000; // check that stream arrived within 2 s
+    uint32_t iTimeCheck = millis() + 2000;     // check that stream arrived within 2 s
 
     while (1)
     {
@@ -391,7 +389,7 @@ void app_main(void)
         {
             mavlink_request_servo_output();
             iTimeRequest = timeNow + 5000;
-            iTimeCheck   = timeNow + 2000; // re-arm check after each re-request
+            iTimeCheck = timeNow + 2000; // re-arm check after each re-request
         }
 
         mavlink_task();
